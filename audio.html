@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>ACTAM project</title>
+        <script type="text/javascript" src="audio.js"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <ul id="menu">
+            <li><a href="#">File</a>
+              <ul>
+                <li><a href="#">New</a></li>
+                <li><a href="#">Open</a></li>
+                <li><a href="#">Save</a></li>
+                <li><a href="#">Exit</a></li>
+              </ul>
+            </li>
+            
+            <li><a href="#">Edit</a>
+              <ul>
+                <li><a href="#">Cut</a></li>
+                <li><a href="#">Paste</a></li>
+                <li><a href="#">Copy</a></li>
+              </ul>
+            </li>
+            
+            <li><a href="#">Effects</a>
+                <ul>
+                   <li><a href="#">Filtering</a>
+                       <ul>
+                          <li><a href="#"> list of filters </a></li>
+                       </ul>
+                   </li>
+                <li><a href="#">Reverb</a></li>
+                <li><a href="#">Delay</a></li>
+                <li><a href="#">Compression</a></li>
+                <li><a href="#">Gain</a></li>
+                <li><a href="#">Distorter</a></li>
+              </ul>
+            </li>
+            
+            <li><a href="#">Options</a>
+              <ul>
+                <li><a href="#">Audio settings</a></li>
+                <li><a href="#">General settings</a></li>
+                <li><a href="#">Metronome</a></li>
+              </ul>
+            </li>
+          </ul>
+          
+          <div id = "container">
+            <label for="file-selector" id="file-selector-label" accept="audio/*"> Load audio file &rarr;</label>
+            <input type="file" id="file-selector"> 
+            <p id = 'fileName'></p>
+            <input type="number" id="duration" min=0.1 max=120></input>
+          <button onclick = "playSound" id = "play"> play </button>
+          </div>          
+    </body>
+</html>
