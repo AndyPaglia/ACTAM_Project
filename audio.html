@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
         <title>ACTAM project</title>
-        <script type="text/javascript" src="audio.js"></script>
+
+        
         <link rel="stylesheet" href="style.css">
+
     </head>
 
     <body>
@@ -50,11 +55,21 @@
           </ul>
           
           <div id = "container">
-            <label for="file-selector" id="file-selector-label" accept="audio/*"> Load audio file &rarr;</label>
+
+            <label for="file-selector" id="file-selector-label" accept="audio/*"> Load audio file &rarr; </label>
             <input type="file" id="file-selector"> 
             <p id = 'fileName'></p>
             <input type="number" id="duration" min=0.1 max=120></input>
-          <button onclick = "playSound" id = "play"> play </button>
-          </div>          
+
+            <div id="waveform"></div>
+
+            <button id = "play"> play </button>
+            <button id = "stop"> stop </button>
+          </div> 
+          
+          <script src="https://unpkg.com/wavesurfer.js@7"></script>
+          <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
+          <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+          <script type="text/javascript" src="audio.js"></script>         
     </body>
 </html>
