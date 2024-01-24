@@ -1,75 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <title>ACTAM project</title>
-
-        
-        <link rel="stylesheet" href="style.css">
-
-    </head>
-
-    <body>
-        <ul id="menu">
-            <li><a href="#">File</a>
-              <ul>
-                <li><a href="#">New</a></li>
-                <li><a href="#">Open</a></li>
-                <li><a href="#">Save</a></li>
-                <li><a href="#">Exit</a></li>
-              </ul>
-            </li>
-            
-            <li><a href="#">Edit</a>
-              <ul>
-                <li><a href="#">Cut</a></li>
-                <li><a href="#">Paste</a></li>
-                <li><a href="#">Copy</a></li>
-              </ul>
-            </li>
-            
-            <li><a href="#">Effects</a>
-                <ul>
-                   <li><a href="#">Filtering</a>
-                       <ul>
-                          <li><a href="#"> list of filters </a></li>
-                       </ul>
-                   </li>
-                <li><a href="#">Reverb</a></li>
-                <li><a href="#">Delay</a></li>
-                <li><a href="#">Compression</a></li>
-                <li><a href="#">Gain</a></li>
-                <li><a href="#">Distorter</a></li>
-              </ul>
-            </li>
-            
-            <li><a href="#">Options</a>
-              <ul>
-                <li><a href="#">Audio settings</a></li>
-                <li><a href="#">General settings</a></li>
-                <li><a href="#">Metronome</a></li>
-              </ul>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ACTAM project</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <ul id="menu">
+    <li><a href="#">File</a>
+      <ul>
+        <li><a href="#">New</a></li>
+        <li><a href="#">Open</a></li>
+        <li><a href="#">Save</a></li>
+        <li><a href="#">Exit</a></li>
+        <li><a href="#">Invite</a></li>
+      </ul>
+    </li>
+    
+    <li><a href="#">Edit</a>
+      <ul>
+        <li><a href="#">Cut</a></li>
+        <li><a href="#">Paste</a></li>
+        <li><a href="#">Copy</a></li>
+      </ul>
+    </li>
+    
+    <li><a href="#">Effects</a>
+      <ul>
+        <li><a href="#">Filtering</a>
+          <ul>
+            <li>
+              <a href="#" id="eqLink" class="selected">Equalizer</a>
+              <button id="toggleEq" style="display: none;">Toggle Equalizer</button>
             </li>
           </ul>
-          
-          <div id = "container">
+        </li>
+        <li><a href="#">Reverb</a></li>
+        <li><a href="#">Delay</a></li>
+        <li><a href="#">Compression</a></li>
+        <li><a href="#">Gain</a></li>
+        <li><a href="#">Distorter</a></li>
+      </ul>
+    </li>
+    
+    <li><a href="#">Options</a>
+      <ul>
+        <li><a href="#">Audio settings</a></li>
+        <li><a href="#">General settings</a></li>
+        <li><a href="#">Metronome</a></li>
+      </ul>
+    </li>
+  </ul>
 
-            <label for="file-selector" id="file-selector-label" accept="audio/*"> Load audio file &rarr; </label>
-            <input type="file" id="file-selector"> 
-            <p id = 'fileName'></p>
-            <input type="number" id="duration" min=0.1 max=120></input>
+  <div id="container">
+    <label for="track-count">Number of Tracks:</label>
+    <input type="number" id="track-count" min="1" max="10">
+    <button id="load-tracks">Load Tracks</button>
+    <button id="add-tracks">Add Tracks</button>
 
-            <div id="waveform"></div>
+    <div id="track-list"></div>
 
-            <button id = "play"> play </button>
-            <button id = "stop"> stop </button>
-          </div> 
-          
-          <script src="https://unpkg.com/wavesurfer.js@7"></script>
-          <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
-          <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-          <script type="text/javascript" src="audio.js"></script>         
-    </body>
-</html>
+    <button id="play">Play</button>
+    <button id="stop">Stop</button>
+  </div>
+
+  <script src="https://unpkg.com/wavesurfer.js@7"></script>
+  <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <script type="text/javascript" src="audio.js"></script>
+

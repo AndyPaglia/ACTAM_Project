@@ -2,6 +2,7 @@
     text-align: center;
     background-color: lightblue;
     height: 100px;
+    
   }
   
   #load {
@@ -27,7 +28,7 @@
   
   body {
     background-color: #FF1493;
-    font-size: 13px;
+    font-size: 13px; 
   }
   
   #menu, #menu ul {
@@ -160,3 +161,9 @@
     border-radius: 0 0 3px 3px;
   }
   
+
+  
+  
+  
+
+
