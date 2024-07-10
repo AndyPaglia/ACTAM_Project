@@ -1,33 +1,86 @@
-<html>
-
-  <label>
-    Zoom: <input type="range" min="10" max="100" value="10" />
-  </label>
-
-  <div style="margin: 2em 0">
-    <button id="play">Play</button>
-    <button id="forward">Forward 30s</button>
-    <button id="backward">Back 30s</button>
-  </div>
-
-  <div id="container" style="background: #2d2d2d; color: #fff"></div>
-
-  <script src="https://unpkg.com/wavesurfer.js@7"></script>
-  <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
-  <script src="https://unpkg.com/wavesurfer-multitrack/dist/multitrack.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-  <!--<script type="text/typescript" src="multiTrackTipeScript.ts"></script> -->
-  <script type="text/javascript" src="multiTrack.js"></script>
-
-  <body> 
-    <div id="audio-container">
-      <!-- Audio tracks will be added here dynamically -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Room Example</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="top-buttons">
+            <div id="join-room-container">
+                <input type="text" id="nickname-input" placeholder="Enter your nickname">
+                <input type="text" id="join-room-input" placeholder="Enter Room ID">
+                <button id="join-room-button">Join Room</button> 
+            </div>
+            
     </div>
-    <div>
-    <label for="channel-number">Select channel:</label>
-    <input type="number" id="channel-number" min="1" max="10">
-    </div>
-    <input type="file" id="audio-input" multiple accept="audio/*">
-  </body>
 
+    <div id="main-container">
+        <div id="multitrack-column" style="display: none;" >
+            <h2>MULTITRACCIA</h2>
+            <div id="container"></div>
+            <div id="audio-container">
+                <!-- Audio tracks will be added here dynamically -->
+              </div>
+              <div>
+              <label for="channel-number">Select channel:</label>
+              <input type="number" id="channel-number" min="1" max="10">
+              <label for="audio-input">Select audio file:</label>
+              <input type="file" id="audio-input" multiple accept="audio/*">
+              <button id="delete-track-button">Delete Track</button>
+              <button id="Start Recording">Start Recording</button>
+              </div>
+            
+        </div>
+
+        <div id="chat-column">
+            <div id="room-info">
+                <p>You are in Room ID: <span id="current-room-id"></span></p>
+            </div>
+
+            <div id="chat-container" style="display: none;">
+                <div id="message-container"></div>
+                    <input type="text" id="message-input" placeholder="Type your message...">
+                    <button id="send-message-button" type="submit">Send</button>
+                    <button id="leave-room-button">Leave Room</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="bottom-buttons" style="display: none;">
+        <div id="controls" >
+                <button id="play">Play</button>
+                <button id="forward">Forward 30s</button>
+                <button id="backward">Back 30s</button>
+                <label>
+                    Zoom: <input type="range" min="10" max="100" value="10" />
+                </label> 
+                <div id="hint"> Press 'p' :P</div>
+                <button id="export-button">Export</button>
+            </div>
+    </div>
+
+    <div id="shortcut-popup" style="display: none;">
+        <h3>Shortcut Commands</h3>
+        <ul>
+            <li><strong>Enter</strong>: Send message / Join room</li>
+            <li><strong>E</strong> (hold 1 second): Export</li>
+            <li><strong>R</strong> (hold 1 second): Start recording</li>
+            <li><strong>S</strong>: Stop recording</li>
+            <li><strong>Space</strong>: Play/Pause</li>
+            <li><strong>Arrow Right</strong>: Forward 30s</li>
+            <li><strong>Arrow Left</strong>: Back 30s</li>
+            <li><strong>Alt + Space</strong>: Reset to start</li>
+            <li><strong>P</strong>: Show shortcuts</li>
+        </ul>
+        <button id="close-shortcut-popup">Close</button>
+    </div>
+
+    <script src="https://unpkg.com/wavesurfer.js@7"></script>
+    <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
+    <script src="https://unpkg.com/wavesurfer-multitrack/dist/multitrack.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="client.js"></script>
+</body>
 </html>

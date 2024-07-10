@@ -1,0 +1,240 @@
+// Client-Server Communication functions
+
+    function connectToServer() {
+      socket = new WebSocket('ws://localhost:5505'); // Modifica l'URL con l'indirizzo del tuo server
+  
+      socket.onopen = () => {
+          console.log('Connected to the server');
+      };
+  
+      socket.onmessage = (event) => {
+          const message = JSON.parse(event.data);
+          console.log('Received message:', message); // Debug log
+          handleMessage(message);
+      };
+  
+      socket.onerror = (error) => {
+          console.error('WebSocket error:', error);
+          displayErrorMessage('Connection error. Please try again later.');
+      };
+  
+      socket.onclose = () => {
+          console.log('Disconnected from the server');
+          displayErrorMessage('Disconnected from server. Please refresh the page to reconnect.');
+      };
+  }
+  
+  // Funzione per gestire i messaggi ricevuti dal server
+  function handleMessage(message) {
+      switch (message.type) {
+          case 'roomID':
+              currentRoomID = message.roomID;
+              currentRoomIDElement.textContent = currentRoomID;
+              chatSpace.style.display = 'block';
+              joinForm.style.display = 'none';
+              displayInfoMessage(`You joined room ${currentRoomID}`);
+              break;
+          case 'chat':
+              displayMessage(message.nickname, message.text);
+              break;
+          case 'info':
+              displayInfoMessage(message.text);
+              break;
+          case 'error':
+              displayErrorMessage(message.text);
+              break;
+          default:
+              console.log('Unknown message type:', message.type);
+      }
+  }
+  
+  // Funzione per inviare un messaggio al server
+  function sendMessage(type, data) {
+      const message = JSON.stringify({ type, ...data });
+      console.log('Sending message:', message); // Debug log
+      socket.send(message);
+  }
+  
+  // Funzione per unirsi a una stanza
+  joinRoomButton.addEventListener('click', () => {
+      const nickname = nicknameInput.value;
+      const roomID = joinRoomInput.value;
+      if (nickname && roomID) {
+          sendMessage('joinRoom', { nickname, roomID });
+      } else {
+          alert('Please enter a nickname and a room ID');
+      }
+  });
+  
+  // Funzione per lasciare una stanza
+  leaveRoomButton.addEventListener('click', () => {
+      if (currentRoomID) {
+          sendMessage('leaveRoom', { roomID: currentRoomID });
+          currentRoomID = null;
+          chatSpace.style.display = 'none';
+          joinForm.style.display = 'block';
+          currentRoomIDElement.textContent = '';
+      }
+  });
+  
+  // Funzione per inviare un messaggio di chat
+  sendMessageButton.addEventListener('click', () => {
+      const text = messageInput.value;
+      if (text) {
+          sendMessage('chat', { nickname: nicknameInput.value, roomID: currentRoomID, text });
+          messageInput.value = '';
+          displayMessage(nicknameInput.value, text); // Visualizzare immediatamente il messaggio inviato
+      }
+  });
+  
+  // Funzione per visualizzare un messaggio nella chat
+  function displayMessage(nickname, text) {
+      const messageElement = document.createElement('div');
+      messageElement.className = 'message';
+  
+      const nicknameElement = document.createElement('span');
+      nicknameElement.className = 'nickname';
+      nicknameElement.textContent = nickname;
+  
+      if (nickname === nicknameInput.value) {
+          nicknameElement.classList.add('self');
+      } else {
+          nicknameElement.classList.add('other');
+      }
+  
+      messageElement.appendChild(nicknameElement);
+      messageElement.appendChild(document.createTextNode(`: ${text}`));
+      messageContainer.appendChild(messageElement);
+  }
+  
+  // Funzione per visualizzare un messaggio informativo nella chat
+  function displayInfoMessage(text) {
+      const messageElement = document.createElement('div');
+      messageElement.className = 'message system';
+      messageElement.textContent = text;
+      messageContainer.appendChild(messageElement);
+  }
+  
+  // Funzione per visualizzare un messaggio di errore
+  function displayErrorMessage(text) {
+      const messageElement = document.createElement('div');
+      messageElement.className = 'message error';
+      messageElement.textContent = text;
+      messageContainer.appendChild(messageElement);
+  }
+  
+  // Connetti al server all'avvio della pagina
+  connectToServer();
+
+
+  //////////////////////////////////////////////
+
+const WebSocket = require('ws');
+
+const wss = new WebSocket.Server({ port: 5505 });
+
+let rooms = {}; // Oggetto per memorizzare le stanze e i loro partecipanti
+
+wss.on('connection', (ws) => {
+    console.log('New client connected');
+
+    ws.on('message', (message) => {
+        try {
+            const parsedMessage = JSON.parse(message);
+            console.log('Received message:', parsedMessage); // Debug log
+            handleClientMessage(ws, parsedMessage);
+        } catch (error) {
+            console.error('Error parsing message:', error);
+            ws.send(JSON.stringify({ type: 'error', text: 'Invalid message format' }));
+        }
+    });
+
+    ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+    });
+
+    ws.on('close', () => {
+        console.log('Client disconnected');
+        leaveAllRooms(ws);
+    });
+});
+
+function handleClientMessage(ws, message) {
+    switch (message.type) {
+        case 'joinRoom':
+            joinRoom(ws, message.nickname, message.roomID);
+            break;
+        case 'leaveRoom':
+            leaveRoom(ws, message.roomID);
+            break;
+        case 'chat':
+            console.log(`Message from ${message.nickname} in room ${message.roomID}: ${message.text}`); // Debug log
+            broadcastMessage(ws, message.roomID, message.nickname, message.text);
+            break;
+        default:
+            console.log('Unknown message type:', message.type);
+    }
+}
+
+function joinRoom(ws, nickname, roomID) {
+    if (!rooms[roomID]) {
+        rooms[roomID] = [];
+    }
+
+    // Verifica se il nickname è già in uso nella stanza
+    const nicknameInUse = rooms[roomID].some(client => client.nickname === nickname);
+    if (nicknameInUse) {
+        ws.send(JSON.stringify({ type: 'error', text: 'Nickname already in use in this room' }));
+        return;
+    }
+
+    rooms[roomID].push({ ws, nickname });
+    ws.roomID = roomID;  // Salva l'ID della stanza nel websocket
+    ws.nickname = nickname;  // Salva il nickname nel websocket
+    ws.send(JSON.stringify({ type: 'roomID', roomID }));
+
+    console.log(`${nickname} joined room ${roomID}`); // Debug log
+    broadcastInfoMessage(ws, roomID, `${nickname} has joined the room`);
+}
+
+function leaveRoom(ws, roomID) {
+    if (!rooms[roomID]) return;
+
+    rooms[roomID] = rooms[roomID].filter(client => client.ws !== ws);
+    if (rooms[roomID].length === 0) {
+        delete rooms[roomID];
+    } else {
+        broadcastInfoMessage(ws, roomID, `${ws.nickname} has left the room`);
+    }
+    console.log(`${ws.nickname} left room ${roomID}`); // Debug log
+}
+
+function leaveAllRooms(ws) {
+    for (let roomID in rooms) {
+        leaveRoom(ws, roomID);
+    }
+}
+
+function broadcastMessage(sender, roomID, nickname, text) {
+    if (!rooms[roomID]) return;
+
+    console.log(`Broadcasting message in room ${roomID}: ${nickname}: ${text}`); // Debug log
+    rooms[roomID].forEach(client => {
+        if (client.ws !== sender) {
+            client.ws.send(JSON.stringify({ type: 'chat', nickname, text }));
+        }
+    });
+}
+
+function broadcastInfoMessage(sender, roomID, text) {
+    if (!rooms[roomID]) return;
+
+    console.log(`Broadcasting info message in room ${roomID}: ${text}`); // Debug log
+    rooms[roomID].forEach(client => {
+        if (client.ws !== sender) {
+            client.ws.send(JSON.stringify({ type: 'info', text }));
+        }
+    });
+}
+
+console.log('WebSocket server is running on ws://localhost:5505');
