@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let START_POSITIONS = [];
     let ENVELOPES = [];
     let JoinFlag = false;
+    let isChat = false;
 
     const currentRoomIDElement = document.getElementById('current-room-id');
     const joinRoomButton = document.getElementById('join-room-button');
@@ -61,7 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let tracks = {};
 
     // Shourtcuts
-
+    messageInput.addEventListener('focus', () => {
+        isChat = true;
+    });
+    messageInput.addEventListener('blur', () => {  
+        isChat = false;
+    });
     messageInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             const text = messageInput.value;
@@ -115,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let holdStart = null;
 
 document.addEventListener('keydown', (event) => {
-    if (event.code === 'Space') {
+    if (event.code === 'Space' && !isChat) {
         event.preventDefault();
         if (multitrack.isPlaying()) {
             multitrack.pause();
