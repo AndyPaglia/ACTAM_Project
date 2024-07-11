@@ -13,3 +13,10 @@ Once the track has been modified, the user can use the render button to render t
 
 Another feature managed by the project, is the possibility to have a multi-user experience. 
 Multiple users can log on the same workspace, by specifying the name of the project they want to enter in, and modify together the project. The communication between users is secured by a message box present in the user interface, where it can be written a text and is certain that it will be sent to the right workspace, since the users are on a specific and "private" workspace.
+
+This project is useful because gives an easy interface to work with audio files. It can be seen as the starting point to understand which are the functionalities of certain effects when superimposed to a track and understand the concept of ordering sound files in time to create a fluid output.
+
+To sum up, the code implemented is a Javascript application that integrates with the WEB Audio API and the Wavesurfer library to create a multi-track audio mixer with recording capabilities. 
+Wavesurfer.js is an open-source audio visualization library for creating interactive, customizable waveforms that gives easy way to work with audio files.
+The Web Audio API provides a powerful and versatile system for controlling audio on the Web, allowing developers to choose audio sources, add effects to audio, create audio visualizations, apply spatial effects and many other functionalities.
+
