@@ -61,6 +61,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const controlPanel = document.getElementById('controlPanel');
         controlPanel.innerHTML = ''; // Clear previous controls
 
+        const filterPanel = document.getElementById('filterPanel');
+        const gainPanel = document.getElementById('gainPanel');
+        const newLabel = document.createElement('label');
+        newLabel.setAttribute('for', 'filterPanel');
+        newLabel.textContent = 'Multiband equalizer';
+        filterPanel.appendChild(newLabel);
+        const addFilter = (labelText, inputAttributes, onChange) => {
+          const control = document.createElement('div');
+          control.className = 'control';
+          const label = document.createElement('label');
+          label.textContent = labelText;
+          const input = document.createElement('input');
+          Object.entries(inputAttributes).forEach(([key, value]) => input.setAttribute(key, value));
+          input.oninput = onChange;
+          control.appendChild(label);
+          control.appendChild(input);
+          filterPanel.appendChild(control);
+        };
+
+
+        const compressorLabel = document.createElement('label');
+        compressorLabel.setAttribute('for', 'controlpanel');
+        compressorLabel.textContent = 'Compressor';
+        const utilityLabel = document.createElement('label');
+        utilityLabel.setAttribute('for', 'utilitypanel');
+        utilityLabel.textContent = 'Utility';
+        controlPanel.appendChild(compressorLabel);
+        gainPanel.appendChild(utilityLabel);
         const addControl = (labelText, inputAttributes, onChange) => {
           const control = document.createElement('div');
           control.className = 'control';
@@ -73,9 +101,23 @@ document.addEventListener('DOMContentLoaded', () => {
           control.appendChild(input);
           controlPanel.appendChild(control);
         };
+        const addUtility = (labelText, inputAttributes, onChange) => {
+          const control = document.createElement('div');
+          control.className = 'control';
+          const label = document.createElement('label');
+          label.textContent = labelText;
+          const input = document.createElement('input');
+          Object.entries(inputAttributes).forEach(([key, value]) => input.setAttribute(key, value));
+          input.oninput = onChange;
+          control.appendChild(label);
+          control.appendChild(input);
+          gainPanel.appendChild(control);
+        };
+
+        
 
         filters.forEach((filter, index) => {
-          addControl(`Band ${eqBands[index]} Hz`, {
+          addFilter(`Band ${eqBands[index]} Hz`, {
             type: 'range',
             min: -40,
             max: 40,
@@ -120,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
           attackCompr = e.target.value;
         });
 
-        addControl('Volume', {
+        addUtility('Volume', {
           type: 'range',
           min: 0,
           max: 2,
@@ -131,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
           volume = e.target.value;
         });
 
-        addControl('Pan', {
+        addUtility('Pan', {
           type: 'range',
           min: -1,
           max: 1,
