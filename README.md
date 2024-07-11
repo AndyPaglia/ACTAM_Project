@@ -2,6 +2,8 @@
 
 NB: Before using the Web application, the user needs to open the prompt shell, enter the folder where the project is saved and then write "node server.js". This will activate the server.
 
+LINK: https://andypaglia.github.io/ACTAM_Project/
+
 The project we implemented consists on a WEB page able to deal with audio files, where the audio files could be files uploaded from the user or could be recording of real time sounds obtained using the computer's microphone. The user can upload multiple tracks since the project is built to support multi-track uploading.
 The audio files waveforms are then visualized in a container with horizontal control, so the file can be moved left or right in the space deliberately to change the order of execution while listening. The first feature we can use on the tracks is the volume control. This is handled through an envelope that can be built directly in the track, at the user's convenience. 
 The WEB page gives various possibility to the user: 
