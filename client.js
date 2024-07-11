@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loadChannelButton = document.getElementById('channel-number');
     const recordButton = document.getElementById("Start Recording");
+    const popupButton = document.getElementById("Effect");
     const audioInput = document.getElementById('audio-input');
 
 
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadChannelButton.addEventListener('change', selectChannel);
     deleteTrackButton.addEventListener('click', deleteTrack);
     exportButton.addEventListener('click', exportTracks);
+    popupButton.addEventListener('click', openPopup);
 
   
 
@@ -282,6 +284,16 @@ function toggleRecording() {
 }
 
 // Multitrack Section
+
+function openPopup() {
+    var url = "popUp.html"; // Cambia con l'URL che vuoi aprire
+    // Specifica il nome della finestra. Può essere una stringa vuota o un nome specifico.
+    var nomeFinestra = "Effect";
+    // Specifica le caratteristiche della finestra
+    var caratteristiche = "width=600,height=400,left=100,top=100";
+    // Apri la finestra di popup
+    window.open(url, nomeFinestra, caratteristiche);
+}
 
 function handleFiles(event) {
     const files = event.target.files;

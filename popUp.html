@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkShop</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Aggiungi un file CSS separato -->
+</head>
+<script src="https://unpkg.com/wavesurfer.js@7"></script>
+<script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
+<script src="https://unpkg.com/wavesurfer-multitrack/dist/multitrack.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="popUpFunction.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nexusui/1.0.18/nexusUI.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nexusui/1.0.18/nexusUI.min.js"></script>
+
+<body>
+    <header>
+        <h1 id="pageTitle">WorkShop</h1> <!-- Aggiunto id per stile personalizzato -->
+    </header>
+    <main>
+        <label for="audio-new"></label>
+        <h2 id="info">Inserisci file audio da modificare</h2>
+        <input type="file" id="audio-new" multiple accept="audio/*">
+        <button id="renderButton">Render audio</button>
+        <div class="control-panel" id="controlPanel">
+            <!-- Sliders nascosti di default -->
+            <div class="control-group" id="volumeGroup" style="display: none;">
+                <label for="volumeSlider">Volume:</label>
+                <input type="range" id="volumeSlider" min="0" max="2" step="0.02" value="1">
+            </div>
+            <div class="control-group" id="panGroup" style="display: none;">
+                <label for="panSlider">Pan:</label>
+                <input type="range" id="panSlider" min="-1" max="1" step="0.01" value="0">
+            </div>
+            <div class="control-group" id="attackGroup" style="display: none;">
+                <label for="attackSlider">Attack:</label>
+                <input type="range" id="attackSlider" min="0" max="1" step="0.02" value="0.05">
+            </div>
+            <div class="control-group" id="thresholdGroup" style="display: none;">
+                <label for="thresholdSlider">Threshold:</label>
+                <input type="range" id="thresholdSlider" min="-100" max="0" step="0.5" value="-5">
+            </div>
+            <div class="control-group" id="ratioGroup" style="display: none;">
+                <label for="ratioSlider">Ratio:</label>
+                <input type="range" id="ratioSlider" min="1" max="20" step="0.1" value="2">
+            </div>
+            <!-- Nuovi slider per l'equalizer -->
+            <div class="control-group" id="eqLowGroup" style="display: none;">
+                <label for="eqLowSlider">Bassi:</label>
+                <input type="range" id="eqLowSlider" min="-12" max="12" step="0.5" value="0">
+            </div>
+            <div class="control-group" id="eqMidGroup" style="display: none;">
+                <label for="eqMidSlider">Medi:</label>
+                <input type="range" id="eqMidSlider" min="-12" max="12" step="0.5" value="0">
+            </div>
+            <div class="control-group" id="eqHighGroup" style="display: none;">
+                <label for="eqHighSlider">Alti:</label>
+                <input type="range" id="eqHighSlider" min="-12" max="12" step="0.5" value="0">
+            </div>
+        </div>
+        <div id="effectControls"></div>
+    </main>
+</body>
+</html>
