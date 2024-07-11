@@ -56,18 +56,42 @@ function handleTrackUpdates(ws, message) {
 
     console.log('Handling track event:', event); // Debug log
 
-    const track = trackState[roomID] && trackState[roomID][event.id];
-    const lastUpdatedBy = track ? track.lastUpdatedBy : null;
+    if (event.url === '') {
+        resetTrackState(roomID, event.id);
+    } else {
+        const track = trackState[roomID] && trackState[roomID][event.id];
+        const lastUpdatedBy = track ? track.lastUpdatedBy : null;
 
-    if (lastUpdatedBy !== nickname) {
-        const systemMessage = `${nickname} ha aggiornato track ${event.id}`;
-        broadcastInfoMessage(ws, roomID, systemMessage);
-        storeMessageInMemory(roomID, { type: 'info', text: systemMessage });
+        if (lastUpdatedBy !== nickname) {
+            const systemMessage = `${nickname} ha aggiornato track ${event.id}`;
+            broadcastInfoMessage(ws, roomID, systemMessage);
+            storeMessageInMemory(roomID, { type: 'info', text: systemMessage });
+        }
+
+        updateTrackState(roomID, event, nickname);
     }
 
-    updateTrackState(roomID, event, nickname);
     storeMessageInMemory(roomID, { type: 'track', event: event });
     broadcastTrackEvent(ws, roomID, event);
+}
+
+function resetTrackState(roomID, trackID) {
+    if (trackState[roomID]) {
+        delete trackState[roomID][trackID];
+    }
+    if (roomMessages[roomID]) {
+        roomMessages[roomID] = roomMessages[roomID].filter(msg => !(msg.type === 'track' && msg.event.id === trackID));
+    }
+    broadcastTrackReset(roomID, trackID);
+}
+
+function broadcastTrackReset(roomID, trackID) {
+    console.log(`Broadcasting track reset in room ${roomID} for track ${trackID}`); // Debug log
+    if (!rooms[roomID]) return;
+
+    rooms[roomID].forEach(client => {
+        client.ws.send(JSON.stringify({ type: 'trackReset', trackID }));
+    });
 }
 
 function joinRoom(ws, nickname, roomID) {
@@ -84,20 +108,20 @@ function joinRoom(ws, nickname, roomID) {
     if (nicknameInUse) {
         ws.send(JSON.stringify({ type: 'error', text: 'Nickname already in use in this room' }));
         return;
+    } else {
+        rooms[roomID].push({ ws, nickname });
+        ws.roomID = roomID; // Salva l'ID della stanza nel websocket
+        ws.nickname = nickname; // Salva il nickname nel websocket
+        ws.send(JSON.stringify({ type: 'roomID', roomID }));
+
+        console.log(`${nickname} joined room ${roomID}`); // Debug log
+
+        // Invia i messaggi precedenti
+        ws.send(JSON.stringify({ type: 'history', messages: roomMessages[roomID] }));
+
+        broadcastInfoMessage(ws, roomID, `${nickname} has joined the room`);
+        storeMessageInMemory(roomID, { type: 'info', text: `${nickname} has joined the room` });
     }
-
-    rooms[roomID].push({ ws, nickname });
-    ws.roomID = roomID;  // Salva l'ID della stanza nel websocket
-    ws.nickname = nickname;  // Salva il nickname nel websocket
-    ws.send(JSON.stringify({ type: 'roomID', roomID }));
-
-    console.log(`${nickname} joined room ${roomID}`); // Debug log
-
-    // Invia i messaggi precedenti
-    ws.send(JSON.stringify({ type: 'history', messages: roomMessages[roomID] }));
-
-    broadcastInfoMessage(ws, roomID, `${nickname} has joined the room`);
-    storeMessageInMemory(roomID, { type: 'info', text: `${nickname} has joined the room` });
 }
 
 function leaveRoom(ws, roomID) {

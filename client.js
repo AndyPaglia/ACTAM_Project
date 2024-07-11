@@ -1,5 +1,4 @@
 
-
 let currentRoomID = null;
 let channelID = 0;
 let mediaRecorder;
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let URLS = [];
     let START_POSITIONS = [];
     let ENVELOPES = [];
-
     let JoinFlag = false;
 
     const currentRoomIDElement = document.getElementById('current-room-id');
@@ -74,8 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const roomID = joinRoomInput.value;
             if (nickname && roomID) {
                 sendMessage('joinRoom', { nickname, roomID });
-                JoinFlag = true;
-                showElements();
             } else {
                 alert('Please enter a nickname and a room ID');
             }
@@ -489,6 +485,8 @@ function deleteTrack() {
                 chatSpace.style.display = 'block';
                 joinForm.style.display = 'none';
                 displayInfoMessage(`You joined room ${currentRoomID}`);
+                JoinFlag = true;
+                showElements();
             } else if (message.type === 'history') {
                 const messages = message.messages || [];
                 messages.forEach(msg => {
@@ -540,10 +538,8 @@ function deleteTrack() {
     joinRoomButton.addEventListener('click', (event) => {
         const nickname = nicknameInput.value;
         const roomID = joinRoomInput.value;
-        if (nickname && roomID) {
+        if (nickname && roomID ) {
             sendMessage('joinRoom', { nickname, roomID });
-            JoinFlag = true;
-            showElements();
         } else {
             alert('Please enter a nickname and a room ID');
         }
@@ -610,6 +606,7 @@ function deleteTrack() {
     function handleTrackEvent(event) {
         console.log('Handling track event:', event); // Debug log
         if (event) {
+            URLS[event.id] = event.url;
             multitrack.addTrack({
                 id: event.id,
                 url: event.url,
@@ -621,6 +618,7 @@ function deleteTrack() {
                     progressColor: 'hsl(25, 87%, 20%)',
                 },
             });
+            START_POSITIONS[event.id] = event.startPosition;
         } else {
             console.log('Unknown track event: error');
         }
