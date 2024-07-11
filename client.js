@@ -1,6 +1,6 @@
 
 let currentRoomID = null;
-let channelID = 0;
+let channelID = 1;
 let mediaRecorder;
 let audioChunks = [];
 
@@ -29,6 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeShortcutPopup = document.getElementById('close-shortcut-popup');
     const shortcutPopup = document.getElementById('shortcut-popup');
     const exportButton = document.getElementById('export-button');
+
+    document.getElementById('insert-track-button').addEventListener('click', function() {
+        document.getElementById('audio-input').click(); // Simula un clic sull'elemento di input
+    });
     
     const playButton = document.querySelector('#play');
     const forwardButton = document.querySelector('#forward');
@@ -42,11 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     recordButton.addEventListener('click', toggleRecording);
+
     audioInput.addEventListener('change', handleFiles);
     loadChannelButton.addEventListener('change', selectChannel);
     deleteTrackButton.addEventListener('click', deleteTrack);
+
     exportButton.addEventListener('click', exportTracks);
+
     popupButton.addEventListener('click', openPopup);
+
 
   
 
@@ -308,6 +316,8 @@ function handleFiles(event) {
                 envelope: [],
                 volume: 0.8,
                 draggable: true,
+                trackBackground: '#2D2D2D',
+                trackBorderColor: '#7C7C7C',
                 options: {
                     waveColor: 'hsl(25, 87%, 49%)',
                     progressColor: 'hsl(25, 87%, 20%)'
@@ -392,7 +402,6 @@ const multitrack = Multitrack.create(
         cursorColor: '#D72F21',
         trackBackground: '#2D2D2D',
         trackBorderColor: '#7C7C7C',
-        dragBounds: true,
         envelopeOptions: {
           lineColor: 'rgba(255, 0, 0, 0.7)',
           lineWidth: 4,
@@ -410,6 +419,8 @@ function deleteTrack() {
             id: channelID,
             url: '',
             draggable: true,
+            trackBackground: '#2D2D2D',
+            trackBorderColor: '#7C7C7C',
             options: {
                 waveColor: 'hsl(25, 87%, 49%)',
                 progressColor: 'hsl(25, 87%, 20%)'
@@ -613,6 +624,8 @@ function deleteTrack() {
                 startPosition: event.startPosition,
                 envelope: event.envelope,
                 draggable: true,
+                trackBackground: '#2D2D2D',
+                trackBorderColor: '#7C7C7C',
                 options: {
                     waveColor: 'hsl(25, 87%, 49%)',
                     progressColor: 'hsl(25, 87%, 20%)',
@@ -646,6 +659,8 @@ function deleteTrack() {
                         startPosition: 0,
                         volume: 0.8,
                         envelope: [],
+                        trackBackground: '#2D2D2D',
+                        trackBorderColor: '#7C7C7C',
                         draggable: true,
                         options: {
                             waveColor: 'hsl(25, 87%, 49%)',

@@ -19,20 +19,23 @@
     <div id="main-container">
         <div id="multitrack-column" style="display: none;" >
             <h2>MULTITRACCIA</h2>
-            <div id="container"></div>
-            <div id="audio-container">
-                <!-- Audio tracks will be added here dynamically -->
-              </div>
-              <div>
-              <label for="channel-number">Select channel:</label>
-              <input type="number" id="channel-number" min="1" max="10">
-              <label for="audio-input">Select audio file:</label>
-              <input type="file" id="audio-input" multiple accept="audio/*">
-              <button id="delete-track-button">Delete Track</button>
-              <button id="Start Recording">Start Recording</button>
-              <button id="Effect">Modify audio file</button>
-              </div>
-            
+            <div id="container">
+                <div style="width: 100%; overflow-x: auto; overflow-y: scroll; user-select: none;">
+                        <div id="audio-container">
+                            <!-- Audio tracks will be added here dynamically -->
+                        </div>
+                    </div>
+                </div>
+                    <div>
+                        <label for="channel-number">Select channel:</label>
+                        <input type="number" id="channel-number" min="1" max="10" value="1">
+                        <input type="file" id="audio-input" multiple accept="audio/*" style="display: none;"> <!-- Nascondi l'elemento di input -->
+                        <button id="insert-track-button">Insert Track</button> <!-- Nuovo pulsante "Insert Track" -->
+                        <button id="delete-track-button">Delete Track</button>
+                        <button id="Start Recording">Start Recording</button>
+                        <button id="Effect">Modify audio file</button>
+                    </div>
+                
         </div>
 
         <div id="chat-column">
@@ -54,11 +57,14 @@
                 <button id="play">Play</button>
                 <button id="forward">Forward 30s</button>
                 <button id="backward">Back 30s</button>
+                <button id="export-button">Export</button>
                 <label>
                     Zoom: <input type="range" min="10" max="100" value="10" />
                 </label> 
-                <div id="hint"> Press 'p' :P</div>
-                <button id="export-button">Export</button>
+
+                <div id="hint"> Press 'p' (hold for 1 second)
+                    :P</div>
+                
             </div>
     </div>
 
@@ -73,7 +79,7 @@
             <li><strong>Arrow Right</strong>: Forward 30s</li>
             <li><strong>Arrow Left</strong>: Back 30s</li>
             <li><strong>Alt + Space</strong>: Reset to start</li>
-            <li><strong>P</strong>: Show shortcuts</li>
+            <li><strong>P</strong>:(hold 1 second) Show shortcuts</li>
         </ul>
         <button id="close-shortcut-popup">Close</button>
     </div>

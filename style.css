@@ -6,6 +6,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden; /* Impedisce il ridimensionamento della pagina */
 }
 
 #top-buttons, #bottom-buttons {
@@ -23,7 +24,13 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: none; /* Disabilita le transizioni */
+  box-sizing: border-box; /* Include padding e border nelle dimensioni */
+}
+
+#top-buttons button:focus, #bottom-buttons button:focus {
+  outline: none; /* Rimuove il focus outline */
+  background-color: #9370DB; /* Mantiene il colore di hover */
 }
 
 #top-buttons button:hover, #bottom-buttons button:hover {
@@ -32,34 +39,86 @@ body {
 
 #main-container {
   display: flex;
-  flex-wrap: wrap; /* Per gestire il wrap dei contenuti */
+  flex-direction: row;
   justify-content: center;
-  max-width: 1000px; /* Larghezza massima della pagina */
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+  overflow: hidden; /* Impedisce il ridimensionamento della pagina */
+}
+
+#main-container.with-multitrack {
+  justify-content: space-between;
 }
 
 #multitrack-column {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
   text-align: center;
-  margin: 0 10px; /* Margini laterali per separazione dagli altri contenuti */
+  margin: 0 10px; /* Aggiungi margini per separare le colonne */
+  display: none; /* Nascondi inizialmente */
 }
 
 #container {
   background-color: lightblue;
   height: 500px;
-  max-width: 100%;
-  overflow-x: auto; /* Mostra la barra di scorrimento orizzontale se necessario */
+  width: 100%; /* Assicura che il contenitore prenda tutta la larghezza disponibile */
+  max-width: 60vw;
+  overflow-x: auto; /* Mostra sempre la barra di scorrimento orizzontale */
+  overflow-y: auto; /* Abilita lo scrolling verticale */
   margin-bottom: 20px;
+  white-space: nowrap; /* Impedisce al contenuto di andare a capo */
 }
 
+.track-inner-container {
+  display: inline-block; /* Allinea gli elementi in linea */
+  height: 100%;
+  width: 3000px; /* Larghezza fissa per simulare contenuto largo */
+}
 
-
+#audio-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  width: auto;
+}
 
 #controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   margin-top: 20px;
 }
 
 #controls button {
   margin-right: 10px;
+}
+
+#zoom-hint-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+#zoom-hint-container label {
+  margin-right: 10px;
+}
+
+#hint {
+  margin-left: 10px;
+  margin-right: 40px;
+  padding: 10px;
+  background-color: #fdfd96; /* Giallo post-it */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Comic Sans MS', cursive, sans-serif; /* Font simile a quello usato sui post-it */
 }
 
 input[type="text"], input[type="number"], button, input[type="file"], input[type="range"] {
@@ -69,13 +128,16 @@ input[type="text"], input[type="number"], button, input[type="file"], input[type
 }
 
 #chat-column {
-  flex: 1;
-  max-width: 300px;
-  margin: 0 10px; /* Margini laterali per separazione dagli altri contenuti */
+  flex: 0 0 250px; /* Riduce la larghezza della colonna della chat */
+  max-width: 250px;
+  margin: 0 10px 0 20px; /* Aggiunge margine sinistro per spostare a destra */
   background-color: #fff;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* Aggiunge flessibilità alla colonna della chat */
+  height: 100%;
 }
 
 #room-info, #join-room-container, #chat-container {
@@ -86,8 +148,8 @@ input[type="text"], input[type="number"], button, input[type="file"], input[type
   border: 1px solid #ccc;
   padding: 10px;
   background-color: #fff;
-  max-height: 200px;
-  overflow-y: auto;
+  height: 400px; /* Altezza fissa per il contenitore dei messaggi */
+  overflow-y: auto; /* Abilita lo scrolling verticale */
 }
 
 #message-input {
