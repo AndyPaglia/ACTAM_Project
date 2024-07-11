@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkShop</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Aggiungi un file CSS separato -->
+
+    <style>
+        .container-wrapper {
+            display: flex;
+            gap: 20px; /* Space between containers */
+        }
+
+    </style>
+</head>
+<script src="https://unpkg.com/wavesurfer.js@7"></script>
+<script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
+<script src="https://unpkg.com/wavesurfer-multitrack/dist/multitrack.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="popUpFunction.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nexusui/1.0.18/nexusUI.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nexusui/1.0.18/nexusUI.min.js"></script>
+
+<body>
+    <header>
+        <h1 id="pageTitle">WorkShop</h1> <!-- Aggiunto id per stile personalizzato -->
+    </header>
+    <main>
+        <label for="audio-new"></label>
+        <h2 id="info">Insert audio file to modify</h2>
+        <input type="file" id="audio-new" multiple accept="audio/*">
+        <button id="renderButton">Render audio</button>
+        <div class="container-wrapper" id="wrapper">
+            <div class="control-panel" id="filterPanel">
+            </div>
+            <div class="control-panel" id="controlPanel">
+            </div>
+            <div class="control-panel" id="gainPanel">
+            </div>
+        </div>
+        <div id="effectControls"></div>
+    </main>
+</body>
+</html>

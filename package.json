@@ -1,0 +1,25 @@
+{
+  "name": "actam_project",
+  "version": "1.0.0",
+  "description": "The project we have decided to implement give the possibility to users to load audio files and modify them using particular function that implement filters",
+  "main": "audio.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndyPaglia/ACTAM_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndyPaglia/ACTAM_Project/issues"
+  },
+  "homepage": "https://github.com/AndyPaglia/ACTAM_Project#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.17.0"
+  }
+}
