@@ -20,3 +20,9 @@ To sum up, the code implemented is a Javascript application that integrates with
 Wavesurfer.js is an open-source audio visualization library for creating interactive, customizable waveforms that gives easy way to work with audio files.
 The Web Audio API provides a powerful and versatile system for controlling audio on the Web, allowing developers to choose audio sources, add effects to audio, create audio visualizations, apply spatial effects and many other functionalities.
 
+We encountered some problems during the implementation of the code:
+1) WaveSurfer.js is a library that has many limitations: limited file format support, performance, complexity in integrating it with other parts of a web application, also the documentation, even though is decent, find some gaps in information. To compensate the WaveSurfer's limitations we integrated Web Audio API to lighten the computation.
+
+2) Calling asynchronous functions (like DecodeAudioData). This caused many problems in the buffer managing. The primary purpose of DecodeAudioData, for example, is to asynchronously decode audio file data, such as MP3 or WAV,  into a form that can be played back or manipulated using other Web Audio API features.
+
+3) Managing the high number of messages from the server to the client. To adjust this problem, we used only functions able to work with high number of messages.
