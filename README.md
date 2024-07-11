@@ -1,5 +1,6 @@
 # Web DAW for manipulation of audios
-The project we implemented consists on a WEB page able to deal with audio files, where the audio files could be files uploaded from the user or could be recording of real time sounds obtained using the computer's microphone. The audio files waveforms are then visualized in a container with horizontal control, so the file can be moved left or right in the space deliberately to change the order of execution while listening. The first feature we can use on the tracks is the volume control. This is handled through an envelope that can be built directly in the track, at the user's convenience. 
+The project we implemented consists on a WEB page able to deal with audio files, where the audio files could be files uploaded from the user or could be recording of real time sounds obtained using the computer's microphone. The user can upload multiple tracks since the project is built to support multi-track uploading.
+The audio files waveforms are then visualized in a container with horizontal control, so the file can be moved left or right in the space deliberately to change the order of execution while listening. The first feature we can use on the tracks is the volume control. This is handled through an envelope that can be built directly in the track, at the user's convenience. 
 The WEB page gives various possibility to the user: 
 1) play/Forward 30s/Back 30s: the track can be played and moved in time.
 2) Select audio file: an audio file can be selected and then uploaded in the WEB page.
